@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".UI.AddData">
+
+    <EditText
+        android:id="@+id/add_title"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:hint="Title"
+        android:inputType="text"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/add_category"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:hint="Category"
+        android:inputType="text"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/add_price"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:hint="Price"
+        android:inputType="number"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+
+    <Button
+        android:id="@+id/browse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:hint="Image Browse"
+        android:textColor="#000" />
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/black_image" />
+
+    <Button
+        android:id="@+id/add_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="Upload Data"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/add_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textSize="20sp" />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="#F1F0F0"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="10dp"
+            app:srcCompat="@drawable/shirt" />
+
+        <TextView
+            android:id="@+id/etTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="5dp"
+            android:text="T-shirt"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/etCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="22dp"
+            android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_circle_24"
+            android:drawableRight="@drawable/ic_baseline_arrow_drop_down_circle_24"
+            android:text="Wash Only"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="40dp"
+            android:text="RS"
+            android:textColor="#0629EA"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/etPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="95dp"
+            android:layout_marginTop="40dp"
+            android:text="10"
+            android:textColor="#0629EA"
+            android:textSize="10sp" />
+
+
+        <ImageButton
+            android:id="@+id/deleteIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="230dp"
+            android:layout_marginTop="5dp"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/minimize" />
+
+        <ImageButton
+            android:id="@+id/editIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="310dp"
+            android:layout_marginTop="12dp"
+            android:background="#00FFFFFF"
+            android:src="@drawable/addition" />
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

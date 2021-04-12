@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="Update Content Panel"
+        android:textColor="#fff"
+        android:textSize="25sp" />
+
+    <EditText
+        android:id="@+id/uImgUrl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Image URL"
+        android:inputType="textUri"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/uTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Title"
+        android:inputType="text"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/uCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Category"
+        android:inputType="text"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/uPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="Price"
+        android:inputType="number"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/uSubmit"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/colorPrimary"
+        android:text="Update"
+        android:textColor="#fff"
+        android:textSize="20sp" />
+
+</LinearLayout>
