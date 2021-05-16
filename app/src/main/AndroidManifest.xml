@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,6 +15,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterPanel">
+        <activity android:name=".UI.AdminMaintainProductsActivity" />
+        <activity android:name=".UI.PracticeWork" />
+        <activity android:name=".UI.AdminUserProductsActivity" />
+        <activity android:name=".UI.AdminNewOrders" />
+        <activity android:name=".UI.AdminCategory" />
+
+        <activity android:name=".UI.Chat.ChatActivity" />
+        <activity android:name=".UI.Chat.HomeChatActivity" />
+        <activity android:name=".UI.Chat.LoginChatActivity" />
+        <activity android:name=".UI.Chat.MainChatActivity" />
+        <activity android:name=".UI.Chat.RegistrationChatActivity" />
+        <activity android:name=".UI.Chat.SettingChatActivity" />
+
+
         <activity
             android:name=".UI.TestWork"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />

@@ -1,34 +1,37 @@
 package com.example.materPanel.Models;
 
 public class model {
-    String title, category, price, pImage;
+    String pname, description, price, image, category, pid, date, time;
 
     model() {
 
     }
 
-
-    public model(String title, String category, String price, String pImage) {
-        this.title = title;
-        this.category = category;
+    public model(String pname, String description, String price, String image, String category, String pid, String date, String time) {
+        this.pname = pname;
+        this.description = description;
         this.price = price;
-        this.pImage = pImage;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
+        this.image = image;
         this.category = category;
+        this.pid = pid;
+        this.date = date;
+        this.time = time;
+    }
+
+    public String getPname() {
+        return pname;
+    }
+
+    public void setPname(String pname) {
+        this.pname = pname;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getPrice() {
@@ -39,11 +42,43 @@ public class model {
         this.price = price;
     }
 
-    public String getPImage() {
-        return pImage;
+    public String getImage() {
+        return image;
     }
 
-    public void setPImage(String pImage) {
-        this.pImage = pImage;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

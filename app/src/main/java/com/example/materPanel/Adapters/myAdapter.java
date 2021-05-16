@@ -34,10 +34,10 @@ public class myAdapter extends FirebaseRecyclerAdapter<model, myAdapter.myViewHo
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull model model) {
-        holder.title.setText(model.getTitle());
-        holder.category.setText(model.getCategory());
+        holder.title.setText(model.getPname());
+        holder.category.setText(model.getDescription());
         holder.price.setText(model.getPrice());
-        Glide.with(holder.img.getContext()).load(model.getPImage()).into(holder.img);
+        Glide.with(holder.img.getContext()).load(model.getImage()).into(holder.img);
 
 
         holder.edit.setOnClickListener(view -> {
@@ -47,25 +47,25 @@ public class myAdapter extends FirebaseRecyclerAdapter<model, myAdapter.myViewHo
                     .create();
 
             View myView = dialogPlus.getHolderView();
-            final EditText pImage = myView.findViewById(R.id.uImgUrl);
-            final EditText title = myView.findViewById(R.id.uTitle);
-            final EditText category = myView.findViewById(R.id.uCategory);
+            final EditText image = myView.findViewById(R.id.uImgUrl);
+            final EditText pname = myView.findViewById(R.id.uTitle);
+            final EditText description = myView.findViewById(R.id.uCategory);
             final EditText price = myView.findViewById(R.id.uPrice);
             Button submit = myView.findViewById(R.id.uSubmit);
 
-            pImage.setText(model.getPImage());
-            title.setText(model.getTitle());
-            category.setText(model.getCategory());
+            image.setText(model.getImage());
+            pname.setText(model.getPname());
+            description.setText(model.getDescription());
             price.setText(model.getPrice());
 
             dialogPlus.show();
 
             submit.setOnClickListener(view1 -> {
                 Map<String, Object> map = new HashMap<>();
-                map.put("pImage", pImage.getText().toString());
-                map.put("title", title.getText().toString());
+                map.put("pImage", image.getText().toString());
+                map.put("title", pname.getText().toString());
                 map.put("price", price.getText().toString());
-                map.put("category", category.getText().toString());
+                map.put("category", description.getText().toString());
 
                 FirebaseDatabase.getInstance().getReference().child("products")
                         .child(getRef(position).getKey()).updateChildren(map)
@@ -82,7 +82,6 @@ public class myAdapter extends FirebaseRecyclerAdapter<model, myAdapter.myViewHo
                             }
                         });
             });
-
 
         });
 
@@ -111,7 +110,6 @@ public class myAdapter extends FirebaseRecyclerAdapter<model, myAdapter.myViewHo
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlerow, parent, false);
         return new myViewHolder(view);
     }
-
 
     static class myViewHolder extends RecyclerView.ViewHolder {
 

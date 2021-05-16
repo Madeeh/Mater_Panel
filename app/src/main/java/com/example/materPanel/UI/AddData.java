@@ -1,43 +1,46 @@
 package com.example.materPanel.UI;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.materPanel.Models.model;
 import com.example.materPanel.R;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
+import com.google.firebase.storage.UploadTask;
 
-import java.io.InputStream;
-import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class AddData extends AppCompatActivity {
+    private String CategoryName, Description, Price, Pname, saveCurrentDate, saveCurrentTime;
+    private Button AddNewProductButton;
+    private ImageView InputProductImage;
+    private EditText InputProductName, InputProductDescription, InputProductPrice;
+    private static final int GalleryPick = 1;
+    private Uri ImageUri;
+    private String productRandomKey, downloadImageUrl;
+    private StorageReference ProductImagesRef;
+    private DatabaseReference ProductsRef;
+    private ProgressDialog loadingBar;
 
-    EditText title, category, price;
-    Uri filepath;
-    ImageView img;
-    Bitmap bitmap;
-    Button submit, back, browse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,95 +48,153 @@ public class AddData extends AppCompatActivity {
         setContentView(R.layout.activity_add_data);
 
 
-        img = findViewById(R.id.img);
-        browse = findViewById(R.id.browse);
-        title = findViewById(R.id.add_title);
-        price = findViewById(R.id.add_price);
-        category = findViewById(R.id.add_category);
+        CategoryName = getIntent().getExtras().get("category").toString();
+        ProductImagesRef = FirebaseStorage.getInstance().getReference().child("Product Images");
+        ProductsRef = FirebaseDatabase.getInstance().getReference().child("Products");
 
 
-        browse.setOnClickListener(view -> Dexter.withActivity(AddData.this)
-                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        Intent intent = new Intent(Intent.ACTION_PICK);
-                        intent.setType("image/*");
-                        startActivityForResult(Intent.createChooser(intent, "Select Image File"), 1);
-                    }
+        AddNewProductButton = findViewById(R.id.add_new_product);
+        InputProductImage = findViewById(R.id.select_product_image);
+        InputProductName = findViewById(R.id.product_names);
+        InputProductDescription = findViewById(R.id.product_descriptions);
+        InputProductPrice = findViewById(R.id.product_prices);
+        loadingBar = new ProgressDialog(this);
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
 
-                    }
+        InputProductImage.setOnClickListener(view -> OpenGallery());
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check());
 
-        back = findViewById(R.id.add_back);
-        back.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), TestWork.class));
-            finish();
-        });
+        AddNewProductButton.setOnClickListener(view -> ValidateProductData());
+    }
 
-        submit = findViewById(R.id.add_submit);
-        submit.setOnClickListener(view -> processInsert());
+
+    private void OpenGallery() {
+        Intent galleryIntent = new Intent();
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent, GalleryPick);
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            filepath = data.getData();
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(filepath);
-                bitmap = BitmapFactory.decodeStream(inputStream);
-                img.setImageBitmap(bitmap);
-            } catch (Exception ex) {
-
-            }
-        }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GalleryPick && resultCode == RESULT_OK && data != null) {
+            ImageUri = data.getData();
+            InputProductImage.setImageURI(ImageUri);
+        }
     }
 
 
-    private void processInsert() {
-        final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setTitle("File Uploader");
-        dialog.show();
-
-        title = findViewById(R.id.add_title);
-        category = findViewById(R.id.add_category);
-        price = findViewById(R.id.add_price);
+    private void ValidateProductData() {
+        Description = InputProductDescription.getText().toString();
+        Price = InputProductPrice.getText().toString();
+        Pname = InputProductName.getText().toString();
 
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        final StorageReference uploader = storage.getReference("Image1" + new Random().nextInt(50));
+        if (ImageUri == null) {
+            Toast.makeText(this, "Product image is mandatory...", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(Description)) {
+            Toast.makeText(this, "Please write product description...", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(Price)) {
+            Toast.makeText(this, "Please write product Price...", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(Pname)) {
+            Toast.makeText(this, "Please write product name...", Toast.LENGTH_SHORT).show();
+        } else {
+            StoreProductInformation();
+        }
+    }
 
-        uploader.putFile(filepath)
-                .addOnSuccessListener(taskSnapshot -> uploader.getDownloadUrl().addOnSuccessListener(uri -> {
 
-                    dialog.dismiss();
-                    FirebaseDatabase db = FirebaseDatabase.getInstance();
-                    DatabaseReference root = db.getReference("products");
+    private void StoreProductInformation() {
+        loadingBar.setTitle("Add New Product");
+        loadingBar.setMessage("Dear Admin, please wait while we are adding the new product.");
+        loadingBar.setCanceledOnTouchOutside(false);
+        loadingBar.show();
 
-                    model obj = new model(title.getText().toString(), category.getText().toString(), price.getText().toString(), uri.toString());
-                    root.child(category.getText().toString()).setValue(obj);
+        Calendar calendar = Calendar.getInstance();
 
-                    title.setText("");
-                    category.setText("");
-                    price.setText("");
-                    img.setImageResource(R.drawable.black_image);
-                    Toast.makeText(getApplicationContext(), "Uploaded", Toast.LENGTH_LONG).show();
-                }))
-                .addOnProgressListener(taskSnapshot -> {
-                    float percent = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                    dialog.setMessage("Uploaded :" + (int) percent + " %");
+        SimpleDateFormat currentDate = new SimpleDateFormat("MMM dd, yyyy");
+        saveCurrentDate = currentDate.format(calendar.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+        saveCurrentTime = currentTime.format(calendar.getTime());
+
+        productRandomKey = saveCurrentDate + saveCurrentTime;
+
+
+        final StorageReference filePath = ProductImagesRef.child(ImageUri.getLastPathSegment() + productRandomKey + ".jpg");
+
+        final UploadTask uploadTask = filePath.putFile(ImageUri);
+
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                String message = e.toString();
+                Toast.makeText(AddData.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                loadingBar.dismiss();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(AddData.this, "Product Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
+
+                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                    @Override
+                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            throw task.getException();
+                        }
+
+                        downloadImageUrl = filePath.getDownloadUrl().toString();
+                        return filePath.getDownloadUrl();
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        if (task.isSuccessful()) {
+                            downloadImageUrl = task.getResult().toString();
+
+                            Toast.makeText(AddData.this, "got the Product image Url Successfully...", Toast.LENGTH_SHORT).show();
+
+                            SaveProductInfoToDatabase();
+                        }
+                    }
                 });
-
+            }
+        });
     }
 
+
+    private void SaveProductInfoToDatabase() {
+        HashMap<String, Object> productMap = new HashMap<>();
+        productMap.put("pid", productRandomKey);
+        productMap.put("date", saveCurrentDate);
+        productMap.put("time", saveCurrentTime);
+        productMap.put("description", Description);
+        productMap.put("image", downloadImageUrl);
+        productMap.put("category", CategoryName);
+        productMap.put("price", Price);
+        productMap.put("pname", Pname);
+
+        ProductsRef.child(productRandomKey).updateChildren(productMap)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Intent intent = new Intent(AddData.this, AdminCategory.class);
+                            startActivity(intent);
+
+                            loadingBar.dismiss();
+                            Toast.makeText(AddData.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
+                        } else {
+                            loadingBar.dismiss();
+                            String message = task.getException().toString();
+                            Toast.makeText(AddData.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 }
