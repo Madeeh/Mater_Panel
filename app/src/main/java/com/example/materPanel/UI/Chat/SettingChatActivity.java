@@ -63,7 +63,7 @@ public class SettingChatActivity extends AppCompatActivity {
         save = findViewById(R.id.save);
 
 
-        DatabaseReference reference = database.getReference().child("user").child(auth.getUid());
+        DatabaseReference reference = database.getReference().child("Admin").child("admin").child(auth.getUid());
         StorageReference storageReference = storage.getReference().child("uplod").child(auth.getUid());
 
         reference.addValueEventListener(new ValueEventListener() {

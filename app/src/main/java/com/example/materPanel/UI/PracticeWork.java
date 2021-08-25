@@ -36,7 +36,7 @@ public class PracticeWork extends AppCompatActivity {
         setContentView(R.layout.activity_practice_work);
 
         type = getIntent().getExtras().get("Admin").toString();
-        ProductsRef = FirebaseDatabase.getInstance().getReference().child("Products");
+        ProductsRef = FirebaseDatabase.getInstance().getReference().child("Products").child("Women");
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(view -> {

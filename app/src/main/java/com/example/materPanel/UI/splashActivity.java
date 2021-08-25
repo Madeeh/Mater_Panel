@@ -52,10 +52,11 @@ public class splashActivity extends AppCompatActivity {
                 Intent intent = new Intent(splashActivity.this, Login.class);
 
                 Pair[] pairs = new Pair[2];
-                pairs[0] = new Pair<View,String>(image, "logo_image");
-                pairs[1] = new Pair<View,String>(logo, "logo_text");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(splashActivity.this,pairs);
-                startActivity(intent,options.toBundle());
+                pairs[0] = new Pair<View, String>(image, "logo_image");
+                pairs[1] = new Pair<View, String>(logo, "logo_text");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(splashActivity.this, pairs);
+                startActivity(intent, options.toBundle());
+                finish();
 
             }
         }, SPLASH_SCREEN);

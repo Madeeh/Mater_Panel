@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.materPanel">
-
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the "MyLocation" functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="com.google.android.providers.gsf.permisson.READ_GSERVICES" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
@@ -15,24 +21,45 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterPanel">
+        <activity android:name=".UI.MapActivity"></activity>
+        <activity android:name=".UI.GetLocationAddress" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".UI.MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".UI.AddPriceListWashAndIron" />
+        <activity android:name=".UI.AddPriceListIron" />
+        <activity android:name=".UI.AddPriceListWash" />
+        <activity android:name=".UI.AddDataOthers" />
+        <activity android:name=".UI.AddDataKids" />
+        <activity android:name=".UI.AddDataMen" />
+        <activity android:name=".UI.AdminDashboard" />
         <activity android:name=".UI.AdminMaintainProductsActivity" />
         <activity android:name=".UI.PracticeWork" />
         <activity android:name=".UI.AdminUserProductsActivity" />
         <activity android:name=".UI.AdminNewOrders" />
         <activity android:name=".UI.AdminCategory" />
-
         <activity android:name=".UI.Chat.ChatActivity" />
         <activity android:name=".UI.Chat.HomeChatActivity" />
         <activity android:name=".UI.Chat.LoginChatActivity" />
         <activity android:name=".UI.Chat.MainChatActivity" />
         <activity android:name=".UI.Chat.RegistrationChatActivity" />
         <activity android:name=".UI.Chat.SettingChatActivity" />
-
-
         <activity
             android:name=".UI.TestWork"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
-        <activity android:name=".UI.AddData" />
+        <activity android:name=".UI.AddDataWomen" />
         <activity android:name=".UI.splashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

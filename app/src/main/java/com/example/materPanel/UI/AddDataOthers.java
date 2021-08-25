@@ -1,5 +1,8 @@
 package com.example.materPanel.UI;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,9 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.materPanel.R;
 import com.google.android.gms.tasks.Continuation;
@@ -29,7 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class AddData extends AppCompatActivity {
+public class AddDataOthers extends AppCompatActivity {
+
     private String CategoryName, Description, Price, Pname, saveCurrentDate, saveCurrentTime;
     private Button AddNewProductButton;
     private ImageView InputProductImage;
@@ -41,16 +42,15 @@ public class AddData extends AppCompatActivity {
     private DatabaseReference ProductsRef;
     private ProgressDialog loadingBar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_data);
+        setContentView(R.layout.activity_add_data_others);
 
 
         CategoryName = getIntent().getExtras().get("category").toString();
         ProductImagesRef = FirebaseStorage.getInstance().getReference().child("Product Images");
-        ProductsRef = FirebaseDatabase.getInstance().getReference().child("Products");
+        ProductsRef = FirebaseDatabase.getInstance().getReference().child("Products").child("Others");
 
 
         AddNewProductButton = findViewById(R.id.add_new_product);
@@ -133,13 +133,13 @@ public class AddData extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 String message = e.toString();
-                Toast.makeText(AddData.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddDataOthers.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                 loadingBar.dismiss();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(AddData.this, "Product Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddDataOthers.this, "Product Image uploaded Successfully...", Toast.LENGTH_SHORT).show();
 
                 Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                     @Override
@@ -157,7 +157,7 @@ public class AddData extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             downloadImageUrl = task.getResult().toString();
 
-                            Toast.makeText(AddData.this, "got the Product image Url Successfully...", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddDataOthers.this, "got the Product image Url Successfully...", Toast.LENGTH_SHORT).show();
 
                             SaveProductInfoToDatabase();
                         }
@@ -184,15 +184,15 @@ public class AddData extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Intent intent = new Intent(AddData.this, AdminCategory.class);
+                            Intent intent = new Intent(AddDataOthers.this, AdminCategory.class);
                             startActivity(intent);
 
                             loadingBar.dismiss();
-                            Toast.makeText(AddData.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddDataOthers.this, "Product is added successfully..", Toast.LENGTH_SHORT).show();
                         } else {
                             loadingBar.dismiss();
                             String message = task.getException().toString();
-                            Toast.makeText(AddData.this, "Error: " + message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddDataOthers.this, "Error: " + message, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

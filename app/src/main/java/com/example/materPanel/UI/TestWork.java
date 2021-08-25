@@ -42,7 +42,7 @@ public class TestWork extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         fb = findViewById(R.id.fAdd);
-        fb.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), AddData.class)));
+        fb.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), AddDataWomen.class)));
 
     }
 

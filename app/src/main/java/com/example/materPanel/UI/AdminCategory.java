@@ -12,7 +12,7 @@ import com.example.materPanel.R;
 
 public class AdminCategory extends AppCompatActivity {
     ImageView tShirts, sportsTShirts, femaleDresses, sweathers;
-    Button LogoutBtn, CheckOrdersBtn, maintainProductsBtn;
+    Button addPriceListWash, addPriceListIron, addPriceListWashAndIron;
 
 
     @Override
@@ -20,28 +20,10 @@ public class AdminCategory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_category);
 
-        LogoutBtn = findViewById(R.id.admin_logout_btn);
-        CheckOrdersBtn = findViewById(R.id.check_orders_btn);
-        maintainProductsBtn = findViewById(R.id.maintain_btn);
 
-        maintainProductsBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminCategory.this, PracticeWork.class);
-            intent.putExtra("Admin", "Admin");
-            startActivity(intent);
-        });
-
-
-        LogoutBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminCategory.this, Login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        });
-
-        CheckOrdersBtn.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminCategory.this, AdminNewOrders.class);
-            startActivity(intent);
-        });
+        addPriceListWash = findViewById(R.id.add_price_list_wash);
+        addPriceListIron = findViewById(R.id.add_price_list_Iron);
+        addPriceListWashAndIron = findViewById(R.id.add_price_list_wash_and_iron);
 
         tShirts = findViewById(R.id.t_shirts);
         sportsTShirts = findViewById(R.id.sports_t_shirts);
@@ -49,33 +31,45 @@ public class AdminCategory extends AppCompatActivity {
         sweathers = findViewById(R.id.sweathers);
 
 
+        addPriceListIron.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminCategory.this, AddPriceListIron.class);
+            startActivity(intent);
+        });
+        addPriceListWashAndIron.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminCategory.this, AddPriceListWashAndIron.class);
+            startActivity(intent);
+        });
+
+        addPriceListWash.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminCategory.this, AddPriceListWash.class);
+            startActivity(intent);
+        });
+
         tShirts.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminCategory.this, AddData.class);
+            Intent intent = new Intent(AdminCategory.this, AddDataWomen.class);
             intent.putExtra("category", "tShirts");
             startActivity(intent);
         });
 
 
         sportsTShirts.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminCategory.this, AddData.class);
+            Intent intent = new Intent(AdminCategory.this, AddDataMen.class);
             intent.putExtra("category", "Sports tShirts");
             startActivity(intent);
         });
 
 
         femaleDresses.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminCategory.this, AddData.class);
+            Intent intent = new Intent(AdminCategory.this, AddDataKids.class);
             intent.putExtra("category", "Female Dresses");
             startActivity(intent);
         });
 
 
         sweathers.setOnClickListener(view -> {
-            Intent intent = new Intent(AdminCategory.this, AddData.class);
+            Intent intent = new Intent(AdminCategory.this, AddDataOthers.class);
             intent.putExtra("category", "Sweathers");
             startActivity(intent);
         });
-
-
     }
 }

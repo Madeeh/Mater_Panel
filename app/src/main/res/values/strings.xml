@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Mater Panel</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_maps_final">Map</string>
 </resources>

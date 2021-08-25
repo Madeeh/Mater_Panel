@@ -88,7 +88,7 @@ public class ChatActivity extends AppCompatActivity {
         reciverRoom = ReciverUID + SenderUID;
 
 
-        DatabaseReference reference = database.getReference().child("user").child(firebaseAuth.getUid());
+        DatabaseReference reference = database.getReference().child("Admin").child("admin").child(firebaseAuth.getUid());
         DatabaseReference chatRefrece = database.getReference().child("chats").child(senderRoom).child("messages");
 
 
